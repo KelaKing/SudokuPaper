@@ -7,15 +7,14 @@
 
 import Cocoa
 
-enum SelectState {
-    case none
-    case selected(row: Int, column: Int)
-}
-
 class ViewController: NSViewController {
     
     let sudokuView = SudokuView()
-    var selectState = SelectState.none
+    var selectedPosition: (row: Int, column: Int) = (0, 0) {
+        didSet {
+            sudokuView.select(row: selectedPosition.row, column: selectedPosition.column)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +25,8 @@ class ViewController: NSViewController {
             sudokuView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sudokuView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        
+        sudokuView.select(row: 0, column: 0)
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -34,21 +35,10 @@ class ViewController: NSViewController {
         let column = Int(point.x.rounded()) / Int(cellSize)
         let row = 8 - Int(point.y.rounded()) / Int(cellSize)
         
-        switch selectState {
-        case .none:
-            selectState = .selected(row: row, column: column)
-        case .selected(let oldRow, let oldColumn):
-            if row == oldRow && column == oldColumn {
-                selectState = .none
-            } else {
-                selectState = .selected(row: row, column: column)
-            }
-        }
-        
-        print("New state: \(selectState)")
+        selectedPosition = (row, column)
     }
 
     override func keyDown(with event: NSEvent) {
-        print("key")
+        print("key: \(event.charactersIgnoringModifiers)")
     }
 }
