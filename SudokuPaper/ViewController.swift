@@ -39,6 +39,27 @@ class ViewController: NSViewController {
     }
 
     override func keyDown(with event: NSEvent) {
-        print("key: \(event.charactersIgnoringModifiers)")
+        if event.charactersIgnoringModifiers == String(UnicodeScalar(NSDeleteCharacter)!) {
+            sudokuView.delete()
+        } else if event.charactersIgnoringModifiers == String(UnicodeScalar(NSRightArrowFunctionKey)!) ||
+                    event.charactersIgnoringModifiers == String(UnicodeScalar(NSTabCharacter)!) {
+            sudokuView.selectNext()
+        } else if event.charactersIgnoringModifiers == String(UnicodeScalar(NSLeftArrowFunctionKey)!) {
+            sudokuView.selectPrevious()
+        } else if event.charactersIgnoringModifiers == String(UnicodeScalar(NSUpArrowFunctionKey)!) {
+            sudokuView.selectUp()
+        } else if event.charactersIgnoringModifiers == String(UnicodeScalar(NSDownArrowFunctionKey)!) {
+            sudokuView.selectDown()
+        }
+        if event.modifierFlags.contains(.command) {
+            if let number = event.charactersIgnoringModifiers, let input = Int(number), input > 0 && input <= 9 {
+                sudokuView.inputNote(input)
+            }
+        } else {
+            if let number = event.charactersIgnoringModifiers, let input = Int(number), input > 0 && input <= 9 {
+                sudokuView.input(input)
+                sudokuView.selectNext()
+            }
+        }
     }
 }

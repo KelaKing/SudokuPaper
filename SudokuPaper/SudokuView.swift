@@ -12,6 +12,9 @@ let cellSize: CGFloat = 50
 class SudokuView: NSView {
     
     var gridView: NSGridView!
+    
+    private var selectedCell: CellView?
+    private var selected: (row: Int, column: Int) = (0, 0)
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -51,14 +54,20 @@ class SudokuView: NSView {
 
     override var intrinsicContentSize: NSSize { NSSize(width: cellSize * 9, height: cellSize * 9) }
     
+    // MARK: - Select
+    
     func select(row: Int, column: Int) {
+        selected = (row, column)
         for i in 0...8 {
             for j in 0...8 {
                 let cell = gridView.cell(atColumnIndex: j, rowIndex: i)
                 if let cellView = cell.contentView as? CellView {
                     if i == row && j == column {
                         cellView.state = .selected
+                        selectedCell = cellView
                     } else if i == row || j == column {
+                        cellView.state = .scope
+                    } else if i / 3 == row / 3 && j / 3 == column / 3 {
                         cellView.state = .scope
                     } else {
                         cellView.state = .normal
@@ -68,34 +77,59 @@ class SudokuView: NSView {
             }
         }
     }
-}
-
-class CellView: NSView {
     
-    enum CellState {
-        case normal
-        case scope
-        case selected
-    }
-    
-    var state = CellState.normal
-    
-    override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        switch state {
-        case .normal:
-            NSColor(named: "CellBackground")!.setFill()
-        case .scope:
-            NSColor(named: "CellScope")!.setFill()
-        case .selected:
-            NSColor(named: "CellSelected")!.setFill()
+    func selectPrevious() {
+        var newSelected = (selected.row, selected.column - 1)
+        if newSelected.1 == -1 {
+            newSelected.0 = selected.row == 0 ? 8 : selected.row - 1
+            newSelected.1 = 8
         }
-        
-        dirtyRect.fill()
+        select(row: newSelected.0, column: newSelected.1)
     }
     
-    override var intrinsicContentSize: NSSize {
-        NSSize(width: cellSize, height: cellSize)
+    func selectNext() {
+        var newSelected = (selected.row, selected.column + 1)
+        if newSelected.1 == 9 {
+            newSelected.0 = selected.row == 8 ? 0 : selected.row + 1
+            newSelected.1 = 0
+        }
+        select(row: newSelected.0, column: newSelected.1)
+    }
+    
+    func selectUp() {
+        var newSelected = (selected.row - 1, selected.column)
+        if newSelected.0 == -1 {
+            newSelected.0 = 8
+        }
+        select(row: newSelected.0, column: newSelected.1)
+    }
+    
+    func selectDown() {
+        var newSelected = (selected.row + 1, selected.column)
+        if newSelected.0 == 9 {
+            newSelected.0 = 0
+        }
+        select(row: newSelected.0, column: newSelected.1)
+    }
+    
+    func input(_ value: Int) {
+        selectedCell?.value.send(.input(value))
+    }
+    
+    func delete() {
+        selectedCell?.value.send(.empty)
+    }
+    
+    func inputNote(_ value: Int) {
+        if case var .notes(notes) = selectedCell?.value.value {
+            if notes.contains(value) {
+                notes.remove(value)
+            } else {
+                notes.insert(value)                
+            }
+            selectedCell?.value.send(.notes(notes))
+        } else {
+            selectedCell?.value.send(.notes([value]))
+        }
     }
 }

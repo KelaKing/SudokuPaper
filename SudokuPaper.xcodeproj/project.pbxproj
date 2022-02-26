@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C32FE2B27C9CEB500F6DE56 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32FE2A27C9CEB500F6DE56 /* CellView.swift */; };
 		2C372CC327C106E000DB365D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C372CC227C106E000DB365D /* AppDelegate.swift */; };
 		2C372CC527C106E000DB365D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C372CC427C106E000DB365D /* ViewController.swift */; };
 		2C372CC727C106E200DB365D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C372CC627C106E200DB365D /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C32FE2A27C9CEB500F6DE56 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		2C372CBF27C106E000DB365D /* SudokuPaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SudokuPaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C372CC227C106E000DB365D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C372CC427C106E000DB365D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 				2C372CC227C106E000DB365D /* AppDelegate.swift */,
 				2C372CC427C106E000DB365D /* ViewController.swift */,
 				2C372CD127C119E600DB365D /* SudokuView.swift */,
+				2C32FE2A27C9CEB500F6DE56 /* CellView.swift */,
 				2C372CD527C22CBB00DB365D /* GridLineView.swift */,
 				2C372CC627C106E200DB365D /* Assets.xcassets */,
 				2C372CC827C106E200DB365D /* Main.storyboard */,
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C372CD227C119E600DB365D /* SudokuView.swift in Sources */,
+				2C32FE2B27C9CEB500F6DE56 /* CellView.swift in Sources */,
 				2C372CC527C106E000DB365D /* ViewController.swift in Sources */,
 				2C372CD627C22CBB00DB365D /* GridLineView.swift in Sources */,
 				2C372CC327C106E000DB365D /* AppDelegate.swift in Sources */,
