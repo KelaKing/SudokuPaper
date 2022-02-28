@@ -112,6 +112,12 @@ class SudokuView: NSView {
         select(row: newSelected.0, column: newSelected.1)
     }
     
+    @IBAction func deleteAll(_ sender: AnyObject) {
+        gridView.subviews.compactMap { $0 as? CellView }.forEach {
+            $0.value.send(.empty)
+        }
+    }
+    
     func input(_ value: Int) {
         selectedCell?.value.send(.input(value))
     }
